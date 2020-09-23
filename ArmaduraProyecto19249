@@ -1,0 +1,256 @@
+%Jonathan_Pu_c._19249
+%Proyecto_analisis_de_armadura
+%Mecanica_estatica
+
+printf('Observar armadura analizada en reporte adjunto\nLa armadura que se analiza es la Pratt con fuerza en el nodo central');
+printf('\nSe analiza con el proceso de la\nmatriz inversa la cual dice que\nA^-1 * b = x');
+printf('\n');
+%Determinar_reacciones_DCL_general
+g = 9.8; %gravedad en m/s^2
+m = 1.971; %masa de 1.971kg
+%m = input('Por favor ingrese la masa en kg: ');
+W = m*g; %Peso en Newtons
+fprintf('El peso máximo que soporta la estructura en Newtons es: %d',W);
+printf('\n');
+DCL1 = [1 1;
+        0 0.36];
+DCL1_res = [19.3158 (19.3158)*(0.18)];
+%%Matriz inversa para calcular las reacciones
+RES1 = inv(DCL1).*DCL1_res;
+RES = [-RES1(1,2); RES1(2,2)];
+
+fprintf('\n');
+%Analisis de nodos con matriz
+cT = (0.045)/(0.083); %coseno del angulo theta del triangulo base
+sT = (0.07)/(0.083); %seno del angulo theta del triangulo base
+
+%Nodo A
+nA = [1 cT;
+      0 sT];
+bA = [0; -RES1(2, 2)];
+
+rA = inv(nA)*(bA); %F_AC y F_AB
+
+%Nodo C
+nC = [0 1;
+      1 0];
+bC = [rA(1); 0];
+
+rC = inv(nC)*(bC); %F_CB y F_CD
+
+%Nodo B
+nB = [1 cT;
+      0 -sT];
+bB = [-rA(2)*(cT); -rA(2)*(sT)];
+
+rB = inv(nB)*(bB);  %F_BE y F_BD
+
+%Nodo D
+nD = [1 0;
+      0 1];
+bD = [((rB(2)*cT) - rC(2)) ; -rB(2)*sT];
+
+rD = inv(nD)*(bD); %F_DF y F_DE
+
+%Nodo E
+nE = [1 cT;
+      0 -sT];
+bE = [rB(1); rD(2)];
+
+rE = inv(nE)*(bE); %F_EG y F_EF
+
+%Nodo F
+nF = [1 0;
+      0 1];
+bF = [(rE(2)*cT + rD(1)); -rE(2)*sT];
+
+rF = inv(nF)*(bF); %F_FH y F_FG
+
+%Nodo G
+nG = [1 cT;
+      0 -sT];
+bN = [rE(1); rF(2)];
+
+rG = inv(nG)*(bN); %F_GI y F_GH
+
+%Nodo I
+nI = [1 0;
+      0 1];
+bI = [rG(1); 0];
+
+rI = inv(nI)*(bI); %F_IK y F_IH
+%Se aprovecha la simetria para desplegar los resultados de
+%la armadura completa
+display('***Se aprovecha la simetria de la armadura***');
+printf('\n Las reacciones en los nodos de la armadura son: ');
+fprintf('\n\n Las reacciones en A_Y y P_Y = %f', RES(1, 1));
+
+%%Reacciones en F_AC = F_PN
+fprintf('\n Las reacciones en F_AC y F_PN = %f', rA(1))
+%%Reacciones en F_AB = F_PO
+fprintf('\n Las reacciones en F_AB y F_PO = %f', rA(2));
+%%Reacciones en F_CB = F_NO
+fprintf('\n Las reacciones en F_CB y F_NO = %f', rC(1));
+%%Reacciones en F_CD = F_NL
+fprintf('\n Las reacciones en F_CD y F_NL = %f', rC(2));
+%%Reacciones en F_BE = F_OM
+fprintf('\n Las reacciones en F_BE y F_OM = %f', rB(1));
+%%Reacciones en F_BD = F_OL
+fprintf('\n Las reacciones en F_BD y F_OL = %f', rB(2));
+%%Reacciones en F_DF = F_LJ
+fprintf('\n Las reacciones en F_DF y F_LJ = %f', rD(1));
+%%Reacciones en F_DE = F_LM
+fprintf('\n Las reacciones en F_DE y F_LM = %f', rD(2));
+%%Reacciones en F_EG = F_MK
+fprintf('\n Las reacciones en F_EG y F_MK = %f', rE(1));
+%%Reacciones en F_EF = F_MJ
+fprintf('\n Las reacciones en F_EF y F_MJ = %f', rE(2));
+%%Reacciones en F_FG = F_JK
+fprintf('\n Las reacciones en F_FG y F_JK = %f', rF(2));
+%%Reacciones en F_GH = F_KH
+fprintf('\n Las reacciones en F_GH y F_KH = %f', rG(2));
+%%Reacciones en F_GI = FKI
+fprintf('\n Las reacciones en F_GI = F_IK = %f %f', rG(1), rI(1)); %verificacion
+%%Reacciones en F_IH
+fprintf('\n La reacción en F_IH = %f', rI(2));
+
+if rA(2) < 0
+  fprintf('\n\nEl elemento AB y PN Está en tensión con valor: %f\n',abs(rA(2)));
+elseif rA(2) > 0
+  fprintf('\n\nEl elemento AB y PN Está en compresión con valor: %f\n', abs(rA(2)));
+else
+  fprintf('\n\nF_AB y F_PN Carga nula: %f\n', abs(rA(2)));
+end
+
+if rA(1) < 0
+  fprintf('El elemento AC y PO Está en tensión con valor: %f\n', abs(rA(1)));
+elseif rA(1) > 0
+  fprintf('El elemento AC y PO Está en compresión con valor: %f\n', abs(rA(1)));
+else
+  fprintf('F_AC y F_PO Carga nula: %f\n', abs(rA(1)));
+end
+
+if rB(1) < 0
+  fprintf('El elemento BE y OM Está en tensión con valor: %f\n', abs(rB(1)));
+elseif rB(1) > 0
+  fprintf('El elemento BE y OM Está en compresión con valor: %f\n', abs(rB(1)));
+else
+  fprintf('F_BE y F_OM Carga nula: %f\n', abs(rB(1)));
+end
+
+if rB(2) < 0
+  fprintf('El elemento BD y OL Está en tensión con valor: %f\n', abs(rB(2)));
+elseif rB(1) > 0
+  fprintf('El elemento BD y OL Está en compresión con valor: %f\n', abs(rB(2)));
+else
+  fprintf('F_BD y F_OL Carga nula: %f\n', abs(rB(2)));
+end
+
+if rC(1) < 0
+  fprintf('El elemento CB y NO Está en tensión con valor: %f\n', abs(rC(1)));
+elseif rC(1) > 0
+  fprintf('El elemento CB y NO Está en compresión con valor: %f\n', abs(rC(1)));
+else
+  fprintf('F_CB y F_NO Carga nula: %f\n', abs(rC(1)));
+end
+
+if rC(2) < 0
+  fprintf('El elemento CD y NL Está en tensión con valor: %f\n', abs(rC(2)));
+elseif rC(2) > 0
+  fprintf('El elemento CD y NL Está en compresión con valor: %f\n', abs(rC(2)));
+else
+  fprintf('F_CD y F_NL Carga nula: %f\n', abs(rC(2)));
+end
+
+if rD(1) < 0
+  fprintf('El elemento DF y LJ Está en tensión con valor: %f\n', abs(rD(1)));
+elseif rC(2) > 0
+  fprintf('El elemento DF y LJ Está en compresión con valor: %f\n', abs(rD(1)));
+else
+  fprintf('F_DF y F_LJ Carga nula: %f\n', abs(rD(1)));
+end
+
+if rD(2) < 0
+  fprintf('El elemento DE y LM Está en tensión con valor: %f\n', abs(rD(2)));
+elseif rC(2) > 0
+  fprintf('El elemento DE y LM Está en compresión con valor: %f\n', abs(rD(2)));
+else
+  fprintf('F_DE y F_LM Carga nula: %f\n', abs(rD(2)));
+end
+
+if rE(1) < 0
+  fprintf('El elemento EG y MK Está en tensión con valor: %f\n', abs(rE(1)));
+elseif rE(1) > 0
+  fprintf('El elemento EG y MK Está en compresión con valor: %f\n', abs(rE(1)));
+else
+  fprintf('F_EG y F_MK Carga nula: %f\n', abs(rE(1)));
+end
+
+if rE(2) < 0
+  fprintf('El elemento EF y MJ Está en tensión con valor: %f\n', abs(rE(2)));
+elseif rE(2) > 0
+  fprintf('El elemento EF y MJ Está en compresión con valor: %f\n', abs(rE(2)));
+else
+  fprintf('F_EF y F_MJ Carga nula: %f\n', abs(rE(2)));
+end
+
+if rF(1) < 0
+  fprintf('El elemento FH y MJ Está en tensión con valor: %f\n', abs(rF(1)));
+elseif rF(1) > 0
+  fprintf('El elemento FH y MJ Está en compresión con valor: %f\n', abs(rF(1)));
+else
+  fprintf('F_FH y F_MJ Carga nula: %f\n', abs(rF(1)));
+end
+
+if rF(2) < 0
+  fprintf('El elemento FG y JK Está en tensión con valor: %f\n', abs(rF(2)));
+elseif rF(2) > 0
+  fprintf('El elemento FG y JK Está en compresión con valor: %f\n', abs(rF(2)));
+else
+  fprintf('F_FG y F_JK Carga nula: %f\n', abs(rF(2)));
+end
+
+if rG(1) < 0
+  fprintf('El elemento GI y IK Está en tensión con valor: %f\n', abs(rG(1)));
+elseif rG(1) > 0
+  fprintf('El elemento GI y IK Está en compresión con valor: %f\n', abs(rG(1)));
+else
+  fprintf('F_GI y F_IK Carga nula: %f\n', abs(rG(1)));
+end
+
+if rG(2) < 0
+  fprintf('El elemento GH y KH Está en tensión con valor: %f\n', abs(rG(2)));
+elseif rG(1) > 0
+  fprintf('El elemento GH y KH Está en compresión con valor: %f\n', abs(rG(2)));
+else
+  fprintf('F_GH y F_KH Carga nula: %f\n', abs(rG(2)));
+end
+
+if rI(1) < 0
+  fprintf('El elemento IK y GI Está en tensión con valor: %f\n', abs(rI(1)));
+elseif rI(1) > 0
+  fprintf('El elemento IK y GI Está en compresión con valor: %f\n', abs(rI(1)));
+else
+  fprintf('F_IK y F_GI Carga nula: %f\n', abs(rI(1)));
+end
+
+if rI(2) < 0
+  fprintf('El elemento IH Está en tensión con valor: %f\n', abs(rI(2)));
+elseif rI(2) > 0
+  fprintf('El elemento IH Está en compresión con valor: %f\n', abs(rI(2)));
+else
+  fprintf('F_IH Carga nula: %f\n', abs(rI(2)));
+end
+
+%%Grafica del valor que salio maximo
+%%F_GI y F_IK ambas salen con valor maximo
+%%Peso 19.3158 N
+x = [0 W];
+y = [0 rG(1)];
+%Especificaciones esteticas de la grafica
+plot(x, y, '-o', 'LineWidth', 2, 'MarkerSize', 5);
+set(gca, 'FontSize', 18);
+grid;
+xlabel('Peso en el nodo central');
+ylabel('Nodo con fuerza máxima');
+title('Fuerza máxima - Peso máximo');
