@@ -1,0 +1,598 @@
+%CodigoCentroides
+%JonathanPu
+
+%Encontrando las 6 curvas que no son conocidas con polinomios cuadrados
+%Los limites ya estan dados por la curva, por ello no se piden datos al usuario
+%Se considera que 1000 rectangulos da una buena estimacion
+
+function trapecio
+%Parte de integración de las curvas
+%-----------------------------------------------CURVA1----------------------------------------------------
+  %Mensaje de bienvenida
+  fprintf('\n--------------------------------------------------------\n');
+  fprintf('Cálculo de integrales por medio de la Regla del Trapecio 1\n');
+  fprintf('--------------------------------------------------------\n\n');
+  
+  a1 = 0;
+  b1 = 0.015;
+  n1 = 1000;
+  %Operacion de la integral
+  h1 = (b1-a1)/n1;
+  x1 = a1:h1:b1;
+  f1 = funcion1(x1);
+  I1 = 0.5*h1*(f1(1) + 2*sum(f1(2:n1-1)) + f1(length(x1))); %Integral de la curva1
+  fprintf('El valor de la integral de la curva 1 es: %12.6f\n', I1);
+  
+  %Graficar la integral de la curva 1
+  plot(x1,f1)
+  hold on;
+  stem(x1,f1); %otro tipo de grafica
+  A1 = a1:0.01:b1;
+  B1 = funcion1(A1);
+  plot(A1, B1, 'r'); %r de rojo
+  xlabel('x');
+  ylabel('f(x)');
+  title('Integral por medio de la Regla del Trapecio');
+  grid on;
+  
+  aa1 = 0;
+  ba1 = 0.015;
+  na1 = 1000;
+  
+  %Operacion de la integral x barra 
+  ha1 = (ba1-aa1)/na1;
+  xa1 = aa1:ha1:ba1;
+  fa1 = funcionA(xa1);
+  Ia1 = (0.5*ha1*(fa1(1) + 2*sum(fa1(2:na1-1)) + fa1(length(xa1))))/I1;
+  Ia1_1 = I1*Ia1; %Curva 1 xA
+  
+  fprintf('El valor de xA de la curva 1 es: %12.6f\n', Ia1_1);
+  
+  %operacion de la integral para y barra
+  aM = 0;
+  bM = 0.015;
+  nM = 1000;
+  hM = (bM-aM)/nM;
+  xM = aM:hM:bM;
+  fM = funcionM(xM);
+  IM = (0.5*hM*(fM(1) + 2*sum(fM(2:nM-1)) + fM(length(xM))));
+  IM_1 =  pi*IM/I1; %Curva 1 YA
+  
+  fprintf('El valor de yA de la curva 1 es: %12.6f\n', IM_1);
+    
+%-----------------------------------RECTANGULO--------------------------------------------------
+  fprintf('\n--------------------------------------------------------\n');
+  fprintf('Cálculo de integral del rectangulo conocido \n');
+  fprintf('--------------------------------------------------------\n\n');
+  
+  %Información ingresada por el usuario
+  ar = 0.015;
+  br = 0.045;
+  Ir = (br-ar)*0.025;
+  
+  fprintf('El valor de la integral del rectangulo es: %12.6f\n', Ir);
+  
+  %Graficar la integral de la curva conocidas
+  xr = [ar ar br br];
+  fr = [0 0.025 0.025 0];
+  fill(xr, fr, 'r'); %otro tipo de grafica
+  xlabel('x');
+  ylabel('f(x)');
+  title('Integral por medio de la Regla del Trapecio');
+  grid on;
+  
+%Rectangulo
+  acr = 0.015;
+  bcr = 0.045;
+  Icr = (bcr-acr)*0.025;
+  xrectangulo = ((bcr-acr)/2); %x barra rectangulo solo
+  xrectangulo_1 = xrectangulo; %xbarra + x
+  xrectangulo_A = xrectangulo_1*Icr; %xA
+  fprintf('El valor de xA del rectangulo es: %12.6f\n', xrectangulo_A);
+  yrectangulo = (0.025/2); %y rectangulo solo\
+  yrectangulo_A = yrectangulo*Ir;
+  fprintf('El valor de yA del rectangulo es %12.6f\n', yrectangulo_A);
+  
+%------------------------------------------------CURVA2-------------------------------------
+  fprintf('\n--------------------------------------------------------\n');
+  fprintf('Cálculo de integrales por medio de la Regla del Trapecio 2\n');
+  fprintf('--------------------------------------------------------\n\n');
+  
+  %Información ingresada por el usuario
+  a2 = 0.045;
+  b2 = 0.061;
+  n2 = 1000;
+  
+  %Operacion de la integral
+  h2 = (b2-a2)/n2;
+  x2 = a2:h2:b2;
+  f2 = funcion2(x2);
+  I2 = 0.5*h2*(f2(1) + 2*sum(f2(2:n2-1)) + f2(length(x2)));
+  
+  fprintf('El valor de la integral es: %12.6f\n', I2);
+  
+  %Graficar la integral
+  plot(x2,f2)
+  hold on;
+  stem(x2,f2); %otro tipo de grafica
+  A2 = a2:0.01:b2;
+  B2 = funcion2(A2);
+  plot(A2, B2, 'r'); %r de rojo
+  xlabel('x');
+  ylabel('f(x)');
+  title('Integral por medio de la Regla del Trapecio');
+  grid on;
+  %Curva2
+  %Información ingresada por el usuario
+  aa2 = 0.045;
+  ba2 = 0.061;
+  na2 = 1000;
+  
+  %Operacion de la integral
+  ha2 = (ba2-aa2)/na2;
+  xaa2 = aa2:ha2:ba2;
+  fa2 = funcionB(xaa2);
+  Ia2 = (0.5*ha2*(fa2(1) + 2*sum(fa2(2:na2-1)) + fa2(length(xaa2))))/I2; %x barra curva sola
+  Ia2_2 = (Ia2)*I2;
+  fprintf('El valor de xA de la curva 2 es: %12.6f\n', Ia2_2);
+  %Información ingresada por el usuario
+  aN = 0.045;
+  bN = 0.061;
+  nN = 1000;
+  
+  %Operacion de la integral
+  hN = (bN-aN)/nN;
+  xN = aN:hN:bN;
+  fN = funcionN(xN);
+  IN = (0.5*hN*(fN(1) + 2*sum(fN(2:nN-1)) + fN(length(xN)))); %Y barra curva sola
+  IN_1 = pi*(IN)/I2;
+  fprintf('El valor de yA de la curva 2 es: %12.6f\n', IN_1);
+
+%-------------------------------------------------CURVA3-------------------------------------------
+  %Mensaje de bienvenida
+  fprintf('\n--------------------------------------------------------\n');
+  fprintf('Cálculo de integrales por medio de la Regla del Trapecio 3\n');
+  fprintf('--------------------------------------------------------\n\n');
+  
+  %Información ingresada por el usuario
+  a3 = 0.061;
+  b3 = 0.125;
+  n3 = 1000;
+  
+  %Operacion de la integral
+  h3 = (b3-a3)/n3;
+  x3 = a3:h3:b3;
+  f3 = funcion3(x3);
+  I3 = 0.5*h3*(f3(1) + 2*sum(f3(2:n3-1)) + f3(length(x3)));
+  
+  fprintf('El valor de la integral es: %12.6f\n', I3);
+  
+  %Graficar la integral
+  plot(x3,f3)
+  hold on;
+  stem(x3,f3); %otro tipo de grafica
+  A3 = a3:0.01:b3;
+  B3 = funcion3(A3);
+  plot(A3, B3, 'r'); %r de rojo
+  xlabel('x');
+  ylabel('f(x)');
+  title('Integral por medio de la Regla del Trapecio');
+  grid on;
+  
+  %Curva3
+  aa3 = 0.061;
+  ba3 = 0.125;
+  na3 = 1000;
+  
+  %Operacion de la integral
+  ha3 = (ba3-aa3)/na3;
+  xa3 = aa3:ha3:ba3;
+  fa3 = funcionC(xa3);
+  Ia3 = (0.5*ha3*(fa3(1) + 2*sum(fa3(2:na3-1)) + fa3(length(xa3))))/I3;
+  Ia3_3 = (Ia3)*I3;
+  
+  fprintf('El valor de xA de la curva 3 es: %12.6f\n', Ia3_3);
+  aO = 0.061;
+  bO = 0.125;
+  nO = 1000;
+  
+  %Operacion de la integral
+  hO = (bO-aO)/nO;
+  xO = aO:hO:bO;
+  fO = funcionO(xO);
+  IO = (0.5*hO*(fO(1) + 2*sum(fO(2:nO-1)) + fO(length(xO))));
+  IO_1 = pi*(IO)/I3;
+  
+  fprintf('El valor de yA de la curva 3 es: %12.6f\n', IO_1);
+
+%----------------------------------------------CURVA4----------------------------------------------
+  %Mensaje de bienvenida
+  fprintf('\n--------------------------------------------------------\n');
+  fprintf('Cálculo de integrales por medio de la Regla del Trapecio 4\n');
+  fprintf('--------------------------------------------------------\n\n');
+  
+  %Información ingresada por el usuario
+  a4 = 0.125;
+  b4 = 0.165;
+  n4 = 1000;
+  
+  %Operacion de la integral
+  h4 = (b4-a4)/n4;
+  x4 = a4:h4:b4;
+  f4 = funcion4(x4);
+  I4 = 0.5*h4*(f4(1) + 2*sum(f4(2:n4-1)) + f4(length(x4)));
+  
+  fprintf('El valor de la integral es: %12.6f\n', I4);
+  
+  %Graficar la integral
+  plot(x4,f4)
+  hold on;
+  stem(x4,f4); %otro tipo de grafica
+  A4 = a4:0.01:b4;
+  B4 = funcion4(A4);
+  plot(A4, B4, 'r'); %r de rojo
+  xlabel('x');
+  ylabel('f(x)');
+  title('Integral por medio de la Regla del Trapecio');
+  grid on;
+  
+%Curva4
+  aa4 = 0.125;
+  ba4 = 0.165;
+  na4 = 1000;
+  
+  %Operacion de la integral
+  ha4 = (ba4-aa4)/na4;
+  xa4 = aa4:ha4:ba4;
+  fa4 = funcionD(xa4);
+  Ia4 = (0.5*ha4*(fa4(1) + 2*sum(fa4(2:na4-1)) + fa4(length(xa4))))/I4; %x barra curva sola
+  Ia4_4 = (Ia4)*I4;
+  
+  fprintf('El valor de xA de la curva 4 es: %12.6f\n', Ia4_4);
+  aP = 0.125;
+  bP = 0.165;
+  nP = 1000;
+  
+  %Operacion de la integral
+  hP = (bP-aP)/nP;
+  xP = aP:hP:bP;
+  fP = funcionP(xP);
+  IP = (0.5*hP*(fP(1) + 2*sum(fP(2:nP-1)) + fP(length(xP)))); %x barra curva sola
+  IP_1 = pi*(IP)/I4;
+  
+  fprintf('El valor de yA de la curva 4 es: %12.6f\n', IP_1);
+
+%-------------------------------------------CURVA5-------------------------------------------------
+  %Mensaje de bienvenida
+  fprintf('\n--------------------------------------------------------\n');
+  fprintf('Cálculo de integrales por medio de la Regla del Trapecio 5\n');
+  fprintf('--------------------------------------------------------\n\n');
+  
+  %Información ingresada por el usuario
+  a5 = 0.165;
+  b5 = 0.217;
+  n5 = 1000;
+  
+  %Operacion de la integral
+  h5 = (b5-a5)/n5;
+  x5 = a5:h5:b5;
+  f5 = funcion5(x5);
+  I5 = 0.5*h5*(f5(1) + 2*sum(f5(2:n5-1)) + f5(length(x5)));
+  
+  fprintf('El valor de la integral es: %12.6f\n', I5);
+  
+  %Graficar la integral
+  plot(x5,f5)
+  hold on;
+  stem(x5,f5); %otro tipo de grafica
+  A5 = a5:0.01:b5;
+  B5 = funcion5(A5);
+  plot(A5, B5, 'r'); %r de rojo
+  xlabel('x');
+  ylabel('f(x)');
+  title('Integral por medio de la Regla del Trapecio');
+  grid on;
+  %Curva5
+  aa5 = 0.165;
+  ba5 = 0.217;
+  na5 = 1000;
+  
+  %Operacion de la integral
+  ha5 = (ba5-aa5)/na5;
+  xa5 = aa5:ha5:ba5;
+  fa5 = funcionE(xa5);
+  Ia5 = (0.5*ha5*(fa5(1) + 2*sum(fa5(2:na5-1)) + fa5(length(xa5))))/I5;
+  Ia5_5 = (Ia5)*I5;
+  
+  fprintf('El valor de xA de la curva 5 es: %12.6f\n', Ia5_5);
+  %Curva5
+  aQ = 0.165;
+  bQ = 0.217;
+  nQ = 1000;
+  
+  %Operacion de la integral
+  hQ = (bQ-aQ)/nQ;
+  xQ = aQ:hQ:bQ;
+  fQ = funcionQ(xQ);
+  IQ = (0.5*hQ*(fQ(1) + 2*sum(fQ(2:nQ-1)) + fQ(length(xQ))));
+  IQ_1 = pi*(IQ)/I5;
+  
+  fprintf('El valor de yA de la curva 5 es: %12.6f\n', IQ_1);
+
+%--------------------------------------------------------CURVA6------------------------------------
+  %Mensaje de bienvenida
+  fprintf('\n--------------------------------------------------------\n');
+  fprintf('Cálculo de integrales por medio de la Regla del Trapecio 6\n');
+  fprintf('--------------------------------------------------------\n\n');
+  
+  %Información ingresada por el usuario
+  a6 = 0.217;
+  b6 = 0.235;
+  n6 = 1000;
+  
+  %Operacion de la integral
+  h6 = (b6-a6)/n6;
+  x6 = a6:h6:b6;
+  f6 = funcion6(x6);
+  I6 = 0.5*h6*(f6(1) + 2*sum(f6(2:n6-1)) + f6(length(x6)));
+  
+  fprintf('El valor de la integral es: %12.6f\n', I6);
+  
+  %Graficar la integral
+  plot(x6,f6)
+  hold on;
+  stem(x6,f6); %otro tipo de grafica
+  A6 = a6:0.01:b6;
+  B6 = funcion6(A6);
+  plot(A6, B6, 'r'); %r de rojo
+  xlabel('x');
+  ylabel('f(x)');
+  title('Integral por medio de la Regla del Trapecio');
+  grid on;
+
+  %Curva6
+  aa6 = 0.217;
+  ba6 = 0.235;
+  na6 = 1000;
+  
+  %Operacion de la integral
+  ha6 = (ba6-aa6)/na6;
+  xa6 = aa6:ha6:ba6;
+  fa6 = funcionF(xa6);
+  Ia6 = (0.5*ha6*(fa6(1) + 2*sum(fa6(2:na6-1)) + fa6(length(xa6))))/I6;
+  Ia6_6 = (Ia6)*I6;
+  
+  fprintf('El valor de xA de la curva 6 es: %12.6f\n', Ia6_6);
+  %Curva6
+  aR = 0.217;
+  bR = 0.235;
+  nR = 1000;
+  
+  %Operacion de la integral
+  hR = (bR-aR)/nR;
+  xR = aR:hR:bR;
+  fR = funcionR(xR);
+  IR = (0.5*hR*(fR(1) + 2*sum(fR(2:nR-1)) + fR(length(xR))));
+  IR_1 = pi*(IR)/I6;
+  
+  fprintf('El valor de yA de la curva 6 es: %12.6f\n', IR_1);
+  
+%La localizacion del centroide en el eje x
+centroide_en_x = (Ia1_1 + xrectangulo_A + Ia2_2 + Ia3_3 + Ia4_4 + Ia5_5 + Ia6_6)/(I1 + I2 + I3 + I4 + I5 + I6 + Ir);
+fprintf('\n\n\n La localizacion del centroide en x es: %f\n', centroide_en_x);
+
+%La localizacion del centroide en el eje y de la mitad de mi figura, para el volumen
+centroide_en_y = (IM_1*I1 + IN_1*I2 + yrectangulo_A* + IO_1*I3 + IP_1*I4 + IQ_1*I5 + IR_1*I6);  
+fprintf('\n\n\n El volumen del solido de revolucion es: %f\n', centroide_en_y);
+
+%Situacion de variacion de volumen de agua
+display('Suponiendo que se varía el volumen del agua, ¿Cómo varía el centroide?');
+  a1 = 0;
+  b1 = 0.235;
+  n1 = 1000;
+  %Operacion de la integral
+  h1 = (b1-a1)/n1;
+  x1 = a1:h1:b1;
+  f1 = fnueva(x1);
+  I1 = 0.5*h1*(fnueva(1) + 2*sum(fnueva(2:n1-1)) + fnueva(length(x1))); %Integral de la curva1
+  
+  %Graficar la integral de la curva 1
+  figure
+  plot(x1,f1)
+  hold on;
+  stem(x1,f1); %otro tipo de grafica
+  A1 = a1:0.01:b1;
+  B1 = fnueva(A1);
+  plot(A1, B1, 'r'); %r de rojo
+  xlabel('x');
+  ylabel('f(x)');
+  title('Variacion del volumen');
+  grid on;
+
+endfunction
+
+function y = fnueva(x)
+nueva_funcion = [0 0.001 0.002 0.003 0.005 0.008 0.011 0.015 0.045 0.047 0.049 0.050 0.052 0.055 0.057 0.060 0.061 0.065 ...
+0.072 0.080 0.090 0.096 0.104 0.110 0.116 0.125 0.125 0.128 0.132 0.135 0.139 0.143 0.147 0.152 0.157 0.162 0.165 ...
+0.165 0.167 0.172 0.176 0.181 0.185 0.190 0.194 0.197 0.203 0.205 0.207 0.210 0.220 0.220 0.223 0.227 0.230 0.232 0.235];
+nueva_funcion_y = [0.015 0.016 0.017 0.019 0.022 0.024 0.025 0.025 0.025 0.027 0.029 0.031 0.033 0.034 0.035 0.036 ...
+0.035 0.036 0.039 0.040 0.041 0.040 0.039 0.038 0.037 0.036 0.036 0.035 0.035 0.034 0.034 0.034 0.035 0.036 0.037 0.037 0.037 ...
+0.035 0.036 0.037 0.038 0.039 0.039 0.040 0.040 0.039 0.038 0.037 0.036 0.035 0.035 0.036 0.035 0.034 0.032 0.031 0.030];
+
+func = polyfit(nueva_funcion, nueva_funcion_y, 6);
+fwhy = [func(1) func(2) func(3) func(4) func(5) func(6)];
+y = func(1).*(x.^6) + func(2).*(x.^5) + func(3).*(x.^4) + func(4).*(x.^3) + func(5).*(x.^2) + func(6).*x;
+
+endfunction
+
+function y = funcion1(x)
+  %Primera curva
+  xa = [0 0.001 0.002 0.003 0.005 0.008 0.011 0.015];
+  ya = [0.015 0.016 0.017 0.019 0.022 0.024 0.025 0.025];
+  Curva1 = polyfit(xa, ya, 2);
+  C1 = [Curva1(1) Curva1(2) Curva1(3)];
+  fprintf('La primera curva cuadrática está dada por %fx^2 + %fx + %f\n', C1(1), C1(2), C1(3));
+  y = C1(1).*(x.^2) + C1(2).*(x)+ C1(3);
+ 
+endfunction
+
+function y = funcion2(x)
+  %Segunda curva
+  xx = [0.045 0.047 0.049 0.050 0.052 0.055 0.057 0.060];
+  yy = [0.025 0.027 0.029 0.031 0.033 0.034 0.035 0.036];
+  Curva2 = polyfit(xx, yy, 2);
+  C2 = [Curva2(1) Curva2(2) Curva2(3)];
+  fprintf('La segunda curva cuadrática está dada por %fx^2 + %fx + %f\n', C2(1), C2(2), C2(3));
+  y = C2(1).*(x.^2) + C2(2).*(x) + C2(3);
+endfunction
+
+function y = funcion3(x)
+  %Tercera curva
+  xxx = [0.061 0.065 0.072 0.080 0.090 0.096 0.104 0.110 0.116 0.125];
+  yyy = [0.035 0.036 0.039 0.040 0.041 0.040 0.039 0.038 0.037 0.036];
+  Curva3 = polyfit(xxx, yyy, 2);
+  C3 = [Curva3(1) Curva3(2) Curva3(3)];
+  fprintf('La tercera curva cuadrática está dada por %fx^2 + %fx + %f\n', C3(1), C3(2), C3(3));
+  y = C3(1).*(x.^2) + C3(2).*(x) + C3(3);
+endfunction
+
+function y = funcion4(x)
+  %Cuarta curva
+  x4 = [0.125 0.128 0.132 0.135 0.139 0.143 0.147 0.152 0.157 0.162 0.165];
+  y4 = [0.036 0.035 0.035 0.034 0.034 0.034 0.035 0.036 0.037 0.037 0.037];
+  Curva4 = polyfit(x4, y4, 2);
+  C4 = [Curva4(1) Curva4(2) Curva4(3)];
+  fprintf('La cuarta curva cuadrática está dada por %fx^2 + %fx + %f\n', C4(1), C4(2), C4(3));
+  y = C4(1).*(x.^2) + C4(2).*(x) + C4(3);
+  endfunction
+
+function y = funcion5(x)
+  %Quinta curva
+  x5 = [0.165 0.167 0.172 0.176 0.181 0.185 0.190 0.194 0.197 0.203 0.205 0.207 0.210 0.220];
+  y5 = [0.035 0.036 0.037 0.038 0.039 0.039 0.040 0.040 0.039 0.038 0.037 0.036 0.035 0.035];
+  Curva5 = polyfit(x5, y5, 2);
+  C5 = [Curva5(1) Curva5(2) Curva5(3)];
+  fprintf('La quinta curva cuadrática está dada por %fx^2 + %fx + %f\n', C5(1), C5(2), C5(3));
+  y = C5(1).*(x.^2) + C5(2).*(x) + C5(3);
+endfunction
+
+function y = funcion6(x)
+  %Sexta curva
+  x6 = [0.220 0.223 0.227 0.230 0.232 0.235];
+  y6 = [0.036 0.035 0.034 0.032 0.031 0.030];
+  Curva6 = polyfit(x6, y6, 2);
+  C6 = [Curva6(1) Curva6(2) Curva6(3)];
+  fprintf('La sexta curva cuadrática está dada por %fx^2 + %fx + %f\n', C6(1), C6(2), C6(3));
+  y = C6(1).*(x.^2) + C6(2).*(x) + C6(3);
+endfunction
+
+%Calcular ~x~*A de cada una de las curvas
+function y = funcionA(x)
+   %Primera curva
+  xa1 = [0 0.001 0.002 0.003 0.005 0.008 0.011 0.015];
+  ya1 = [0.015 0.016 0.017 0.019 0.022 0.024 0.025 0.025];
+  Curvaa1 = polyfit(xa1, ya1, 2);
+  Ca1 = [Curvaa1(1) Curvaa1(2) Curvaa1(3)];
+  y = Ca1(1).*(x.^3) + Ca1(2).*(x.^2)+ Ca1(3).*(x);
+  
+endfunction
+function y = funcionB(x)
+  %Segunda curva
+  xB = [0.045 0.047 0.049 0.050 0.052 0.055 0.057 0.060];
+  yB = [0.025 0.027 0.029 0.031 0.033 0.034 0.035 0.036];
+  CurvaB = polyfit(xB, yB, 2);
+  CB = [CurvaB(1) CurvaB(2) CurvaB(3)];
+  y = CB(1).*(x.^3) + CB(2).*(x.^2) + CB(3).*x;
+endfunction
+
+function y = funcionC(x)
+  %Tercera curva
+  xC = [0.061 0.065 0.072 0.080 0.090 0.096 0.104 0.110 0.116 0.125];
+  yC = [0.035 0.036 0.039 0.040 0.041 0.040 0.039 0.038 0.037 0.036];
+  CurvaC = polyfit(xC, yC, 2);
+  CC = [CurvaC(1) CurvaC(2) CurvaC(3)];
+  y = CC(1).*(x.^3) + CC(2).*(x.^2) + CC(3).*x;
+endfunction
+
+function y = funcionD(x)
+  %Cuarta curva
+  xD = [0.125 0.128 0.132 0.135 0.139 0.143 0.147 0.152 0.157 0.162 0.165];
+  yD = [0.036 0.035 0.035 0.034 0.034 0.034 0.035 0.036 0.037 0.037 0.037];
+  CurvaD = polyfit(xD, yD, 2);
+  CD = [CurvaD(1) CurvaD(2) CurvaD(3)];
+  y = CD(1).*(x.^3) + CD(2).*(x.^2) + CD(3).*x;
+endfunction
+
+function y = funcionE(x)
+  %Quinta curva
+  xE = [0.165 0.167 0.172 0.176 0.181 0.185 0.190 0.194 0.197 0.203 0.205 0.207 0.210 0.220];
+  yE = [0.035 0.036 0.037 0.038 0.039 0.039 0.040 0.040 0.039 0.038 0.037 0.036 0.035 0.035];
+  CurvaE = polyfit(xE, yE, 2);
+  CE = [CurvaE(1) CurvaE(2) CurvaE(3)];
+  y = CE(1).*(x.^3) + CE(2).*(x.^2) + CE(3).*x;
+endfunction
+
+function y = funcionF(x)
+  %Sexta curva
+  xF = [0.220 0.223 0.227 0.230 0.232 0.235];
+  yF = [0.036 0.035 0.034 0.032 0.031 0.030];
+  CurvaF = polyfit(xF, yF, 2);
+  CF = [CurvaF(1) CurvaF(2) CurvaF(3)];
+  y = CF(1).*(x.^3) + CF(2).*(x.^2) + CF(3).*x;
+endfunction
+
+function y = funcionM(x)
+  xa = [0 0.001 0.002 0.003 0.005 0.008 0.011 0.015];
+  ya = [0.015 0.016 0.017 0.019 0.022 0.024 0.025 0.025];
+  Curva1 = polyfit(xa, ya, 2);
+  C1 = [Curva1(1) Curva1(2) Curva1(3)];
+  y = (C1(1).*(x.^2) + C1(2).*(x)+ C1(3)).^2;
+
+endfunction
+
+function y = funcionN(x)
+  xx = [0.045 0.047 0.049 0.050 0.052 0.055 0.057 0.060];
+  yy = [0.025 0.027 0.029 0.031 0.033 0.034 0.035 0.036];
+  Curva2 = polyfit(xx, yy, 2);
+  C2 = [Curva2(1) Curva2(2) Curva2(3)];
+  y = (C2(1).*(x.^2) + C2(2).*(x) + C2(3)).^2;
+
+endfunction
+
+function y = funcionO(x)
+  xxx = [0.061 0.065 0.072 0.080 0.090 0.096 0.104 0.110 0.116 0.125];
+  yyy = [0.035 0.036 0.039 0.040 0.041 0.040 0.039 0.038 0.037 0.036];
+  Curva3 = polyfit(xxx, yyy, 2);
+  C3 = [Curva3(1) Curva3(2) Curva3(3)];
+  y = (C3(1).*(x.^2) + C3(2).*(x) + C3(3)).^2;
+endfunction
+
+function y = funcionP(x)
+  %Cuarta curva
+  x4 = [0.125 0.128 0.132 0.135 0.139 0.143 0.147 0.152 0.157 0.162 0.165];
+  y4 = [0.036 0.035 0.035 0.034 0.034 0.034 0.035 0.036 0.037 0.037 0.037];
+  Curva4 = polyfit(x4, y4, 2);
+  C4 = [Curva4(1) Curva4(2) Curva4(3)];
+  y = (C4(1).*(x.^2) + C4(2).*(x) + C4(3)).^2;
+
+endfunction
+
+function y = funcionQ(x)
+    %Quinta curva
+  x5 = [0.165 0.167 0.172 0.176 0.181 0.185 0.190 0.194 0.197 0.203 0.205 0.207 0.210 0.220];
+  y5 = [0.035 0.036 0.037 0.038 0.039 0.039 0.040 0.040 0.039 0.038 0.037 0.036 0.035 0.035];
+  Curva5 = polyfit(x5, y5, 2);
+  C5 = [Curva5(1) Curva5(2) Curva5(3)];
+  y = (C5(1).*(x.^2) + C5(2).*(x) + C5(3)).^2;
+
+endfunction
+
+function y = funcionR(x)
+    %Sexta curva
+  x6 = [0.220 0.223 0.227 0.230 0.232 0.235];
+  y6 = [0.036 0.035 0.034 0.032 0.031 0.030];
+  Curva6 = polyfit(x6, y6, 2);
+  C6 = [Curva6(1) Curva6(2) Curva6(3)];
+  y = (C6(1).*(x.^2) + C6(2).*(x) + C6(3)).^2;
+
+endfunction
